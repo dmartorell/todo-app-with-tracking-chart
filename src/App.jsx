@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import React, { useState, useReducer } from 'react';
+import Task from './Task';
 
 function App() {
   const [taskName, setTaskName] = useState('');
@@ -54,12 +55,8 @@ function App() {
       <ul>
         {
         todos.map((task) => (
-          <li key={task.id} style={{ textDecoration: task.complete ? 'line-through' : '' }}>
-            {task.name}
-            {' '}
-            {task.complete}
-            <button type="button" onClick={() => toggleTask(task.id)}>{task.complete ? 'Undo' : 'Done'}</button>
-            <button type="button" onClick={() => deleteTask(task.id)}>Delete</button>
+          <li style={{ listStyle: 'none' }} key={task.id}>
+            <Task task={task} onDelete={deleteTask} onToggle={toggleTask} />
           </li>
         ))
       }
