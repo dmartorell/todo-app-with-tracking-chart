@@ -4,22 +4,6 @@ import Task from './components/Task/Task';
 import ACTIONS from './ACTIONS';
 import MyResponsivePie from './components/Pie/Pie';
 
-const data = [
-  {
-    id: 'Done',
-    label: 'Done',
-    value: 483,
-    color: 'hsl(165, 50%, 10%)',
-  },
-
-  {
-    id: 'To-do',
-    label: 'To-do',
-    value: 569,
-    color: 'hsl(100, 90%, 90%)',
-  },
-];
-
 const reducer = ((todos, action) => {
   switch (action.type) {
     case ACTIONS.ADD_TASK:
@@ -43,10 +27,22 @@ const reducer = ((todos, action) => {
 
 function App() {
   const inputRef = useRef();
-
   const [taskName, setTaskName] = useState('');
-
   const [todos, dispatch] = useReducer(reducer, []);
+  const data = [
+    {
+      id: 'Done',
+      label: 'Done',
+      value: todos.filter((task) => task.complete).length,
+      color: 'hsl(165, 50%, 10%)',
+    },
+    {
+      id: 'To-do',
+      label: 'To-do',
+      value: todos.filter((task) => !task.complete).length,
+      color: 'hsl(100, 90%, 90%)',
+    },
+  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();

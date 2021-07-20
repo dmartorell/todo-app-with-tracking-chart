@@ -8,8 +8,8 @@ const MyResponsivePie = ({ data }) => (
     margin={{
       top: 30, right: 80, bottom: 30, left: 80,
     }}
-    startAngle={214}
-    endAngle={8}
+    startAngle={310}
+    endAngle={-10}
     innerRadius={0.45}
     activeOuterRadiusOffset={8}
     colors={{ scheme: 'blues' }}
@@ -20,13 +20,13 @@ const MyResponsivePie = ({ data }) => (
     arcLinkLabelsThickness={2}
     arcLinkLabelsColor={{ from: 'color' }}
     arcLabelsSkipAngle={10}
-    arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 12]] }}
+    arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 20]] }}
     defs={[
       {
         id: 'lines',
         type: 'patternLines',
         background: '#2270B5',
-        color: 'rgba(255, 255, 255, 0.2)',
+        color: 'rgba(255, 255, 255, 0.05)',
         padding: 1,
         stagger: false,
       },
