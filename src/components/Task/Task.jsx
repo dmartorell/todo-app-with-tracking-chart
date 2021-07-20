@@ -1,8 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 import ACTIONS from '../../ACTIONS';
 
-const Task = ({ task, dispatch }) => (
+const Task = ({ task, dispatch, inputRef }) => (
   <>
     <p style={{ display: 'inline', textDecoration: task.complete ? 'line-through' : '' }}>
       {task.name}
@@ -10,7 +10,10 @@ const Task = ({ task, dispatch }) => (
     <button
       style={{ margin: '5px 7px', padding: '0 5px' }}
       type="button"
-      onClick={() => dispatch({ type: ACTIONS.TOGGLE_TASK, id: task.id })}
+      onClick={() => {
+        dispatch({ type: ACTIONS.TOGGLE_TASK, id: task.id });
+        inputRef.current.focus();
+      }}
     >
       {task.complete ? 'Unmark' : 'Done'}
 
@@ -18,22 +21,14 @@ const Task = ({ task, dispatch }) => (
     <button
       style={{ margin: '5px 7px', padding: '0 5px' }}
       type="button"
-      onClick={() => dispatch({ type: ACTIONS.DELETE_TASK, id: task.id })}
+      onClick={() => {
+        dispatch({ type: ACTIONS.DELETE_TASK, id: task.id });
+        inputRef.current.focus();
+      }}
     >
       Delete
-
     </button>
   </>
 );
-
-Task.propTypes = {
-  task: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    complete: PropTypes.bool,
-  })
-    .isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default Task;

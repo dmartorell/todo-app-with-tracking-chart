@@ -1,7 +1,24 @@
 /* eslint-disable jsx-a11y/no-autofocus */
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useRef } from 'react';
 import Task from './components/Task/Task';
 import ACTIONS from './ACTIONS';
+import MyResponsivePie from './components/Pie/Pie';
+
+const data = [
+  {
+    id: 'Done',
+    label: 'Done',
+    value: 483,
+    color: 'hsl(165, 50%, 10%)',
+  },
+
+  {
+    id: 'To-do',
+    label: 'To-do',
+    value: 569,
+    color: 'hsl(100, 90%, 90%)',
+  },
+];
 
 const reducer = ((todos, action) => {
   switch (action.type) {
@@ -25,6 +42,8 @@ const reducer = ((todos, action) => {
 });
 
 function App() {
+  const inputRef = useRef();
+
   const [taskName, setTaskName] = useState('');
 
   const [todos, dispatch] = useReducer(reducer, []);
@@ -36,21 +55,25 @@ function App() {
   };
   return (
     <>
-      <h2>TODO APP with useReducer</h2>
+      <h2 style={{ textAlign: 'center' }}>TODO APP with useReducer</h2>
       <br />
       <form onSubmit={handleSubmit}>
-        <input type="text" value={taskName} onChange={(e) => setTaskName(e.target.value)} autoFocus />
+        <input ref={inputRef} style={{ width: '100%', padding: '5px 10px' }} type="text" value={taskName} onChange={(e) => setTaskName(e.target.value)} autoFocus />
       </form>
       <br />
       <ul>
         {
         todos.map((task) => (
           <li style={{ listStyle: 'none' }} key={task.id}>
-            <Task task={task} dispatch={dispatch} />
+            <Task task={task} dispatch={dispatch} inputRef={inputRef} />
           </li>
         ))
       }
       </ul>
+      <br />
+      <div style={{ height: '400px', width: '400px' }}>
+        <MyResponsivePie data={data} />
+      </div>
     </>
   );
 }
