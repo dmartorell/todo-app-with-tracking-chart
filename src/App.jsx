@@ -1,43 +1,33 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import React, { useState, useReducer } from 'react';
-import Task from './Task';
+import Task from './components/Task/Task';
+import ACTIONS from './ACTIONS';
+
+const reducer = ((todos, action) => {
+  switch (action.type) {
+    case ACTIONS.ADD_TASK:
+      return [{ id: Date.now(), name: action.taskName, complete: false }, ...todos];
+    case ACTIONS.DELETE_TASK:
+      return todos.filter((task) => task.id !== action.id);
+    case ACTIONS.TOGGLE_TASK:
+      return todos.map((task) => {
+        if (task.id === action.id) {
+          return {
+            ...task,
+            complete: !task.complete,
+          };
+        }
+        return task;
+      });
+    default:
+      return todos;
+  }
+});
 
 function App() {
   const [taskName, setTaskName] = useState('');
-  const ACTIONS = {
-    ADD_TASK: 'add_task',
-    DELETE_TASK: 'delete_task',
-    TOGGLE_TASK: 'toggle_task',
-  };
 
-  const reducer = ((state, action) => {
-    switch (action.type) {
-      case ACTIONS.ADD_TASK:
-        return [{ id: Date.now(), name: action.taskName, complete: false }, ...state];
-      case ACTIONS.DELETE_TASK:
-        return state.filter((task) => task.id !== action.id);
-      case ACTIONS.TOGGLE_TASK:
-        return state.map((task) => {
-          if (task.id === action.id) {
-            return {
-              ...task,
-              complete: !task.complete,
-            };
-          }
-          return { ...task };
-        });
-      default:
-        return state;
-    }
-  });
   const [todos, dispatch] = useReducer(reducer, []);
-
-  const deleteTask = (id) => {
-    dispatch({ type: ACTIONS.DELETE_TASK, id });
-  };
-  const toggleTask = (id) => {
-    dispatch({ type: ACTIONS.TOGGLE_TASK, id });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +46,7 @@ function App() {
         {
         todos.map((task) => (
           <li style={{ listStyle: 'none' }} key={task.id}>
-            <Task task={task} onDelete={deleteTask} onToggle={toggleTask} />
+            <Task task={task} dispatch={dispatch} />
           </li>
         ))
       }
